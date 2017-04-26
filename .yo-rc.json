@@ -1,0 +1,11 @@
+{
+  "generator-openapi-repo": {
+    "importExistingSpec": true,
+    "importedSpec": "swagger/swagger.json",
+    "name": "BeezUPApi",
+    "repo": "BeezUP/API",
+    "splitSpec": false,
+    "samples": true,
+    "installSwaggerUI": true
+  }
+}
