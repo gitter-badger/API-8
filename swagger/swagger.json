@@ -1,0 +1,4853 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2.0",
+    "title": "Channel Catalogs",
+    "description": "This api allows you to manage your channel catalogs. A channel catalog is an association between your store and a channel.",
+    "contact": {
+      "email": "support@beezup.com"
+    },
+    "license": {
+      "name": "BeezUP",
+      "url": "http://www.beezup.com"
+    }
+  },
+  "host": "api.beezup.com",
+  "basePath": "/v2/user/channelCatalogs",
+  "x-api-name": "V2UserChannelCatalogs",
+  "x-api-namespace": "BeezUP2.Channel.ApiService",
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "api_key": {
+      "description": "The api subscription key",
+      "type": "apiKey",
+      "name": "Ocp-Apim-Subscription-Key",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "api_key": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Global",
+      "description": "All tracking operations"
+    },
+    {
+      "name": "Category Mappings",
+      "description": "All category mapping operations"
+    },
+    {
+      "name": "Column Mappings",
+      "description": "All column mapping operations."
+    },
+    {
+      "name": "Settings",
+      "description": "All settings operations"
+    },
+    {
+      "name": "Exclusion Filters",
+      "description": "All exclusion filters operations"
+    },
+    {
+      "name": "Tracking",
+      "description": "All tracking operations"
+    },
+    {
+      "name": "Statistics",
+      "description": "All statitics operations"
+    },
+    {
+      "name": "Rules",
+      "description": "All rules operations. Rules are automatic optimisations based on report filters."
+    },
+    {
+      "name": "Reports",
+      "description": "All reports operations"
+    },
+    {
+      "name": "Optimisations",
+      "description": "All optmisations operations"
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "parameters": {
+    "channelCatalogIdParameter": {
+      "name": "channelCatalogId",
+      "in": "path",
+      "required": true,
+      "description": "The channel catalog identifier",
+      "type": "string",
+      "format": "guid",
+      "x-example": "6d6b04de-406b-4539-8e7e-bf3e8da5dfb0"
+    },
+    "productIdParameter": {
+      "name": "productId",
+      "description": "The product identifier",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "format": "guid",
+      "x-example": "578419df-1bbf-41a6-96fa-862e42182b67"
+    },
+    "exportFormatInQueryGeneralParameter": {
+      "name": "format",
+      "in": "query",
+      "required": true,
+      "type": "string",
+      "enum": [
+        "xlsx",
+        "csv"
+      ]
+    },
+    "ruleIdOnlyGeneralParameters": {
+      "name": "ruleId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "format": "guid",
+      "description": "Your rule identifier"
+    },
+    "reportFilterIdOnlyGeneralParameters": {
+      "name": "reportFilterId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "format": "guid",
+      "description": "Your report filter identifier"
+    },
+    "optimisationActionNameGeneralParameters": {
+      "name": "actionName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "enum": [
+        "reenable",
+        "disable"
+      ],
+      "format": "optimisationActionName"
+    }
+  },
+  "paths": {
+    "/v2/user/channelCatalogs/": {
+      "get": {
+        "tags": [
+          "Global"
+        ],
+        "summary": "List all your current channel catalogs",
+        "operationId": "GetChannelCatalogs",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "description": "The store identifier",
+            "type": "string",
+            "format": "guid",
+            "x-example": "04730364-9826-4ff3-92e4-51fccd02bf10"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "description": "The key will be the channel catalog identifier, the value is the link to the operationId: GetChannelCatalog \n",
+              "type": "object",
+              "properties": {
+                "channelCatalogId": {
+                  "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.ChannelCatalogId"
+                },
+                "channelId": {
+                  "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.ChannelId"
+                },
+                "channelName": {
+                  "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.ChannelName"
+                },
+                "storeId": {
+                  "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.StoreId"
+                }
+              },
+              "additionalProperties": {
+                "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.Link3"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Global"
+        ],
+        "summary": "Create a new channel catalog",
+        "operationId": "CreateChannelCatalog",
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/createChannelCatalogRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "When the channel has been successfully added for this store",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The new location",
+                "x-example": "/v2/user/channelCatalogs/6d6b04de-406b-4539-8e7e-bf3e8da5dfb0"
+              },
+              "Retry-After": {
+                "description": "The duration in second to wait before polling this resource",
+                "type": "integer",
+                "minimum": 5,
+                "default": 5,
+                "x-example": 5
+              }
+            },
+            "schema": {
+              "description": "Link to the new channel catalog",
+              "type": "array",
+              "items": {
+                "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.Link2"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/user/channelCatalogs/{channelCatalogId}": {
+      "get": {
+        "tags": [
+          "Global"
+        ],
+        "summary": "Get the channel catalog information",
+        "operationId": "GetChannelCatalog",
+        "parameters": [
+          {
+            "$ref": "#/parameters/channelCatalogIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Channel catalog",
+            "schema": {
+              "$ref": "#/definitions/channelCatalog"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Global"
+        ],
+        "summary": "Delete the channel catalog",
+        "operationId": "DeleteChannelCatalog",
+        "responses": {
+          "204": {
+            "description": "Channel catalog deleted"
+          }
+        }
+      }
+    },
+    "/v2/user/channelCatalogs/{channelCatalogId}/enable": {
+      "post": {
+        "tags": [
+          "Settings"
+        ],
+        "summary": "Enable a channel catalog",
+        "operationId": "EnableChannelCatalog",
+        "parameters": [
+          {
+            "$ref": "#/parameters/channelCatalogIdParameter"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Channel catalog enabled"
+          },
+          "402": {
+            "description": "You have to upgrade your offer to activate this channel catalog",
+            "schema": {
+              "$ref": "#/definitions/upgradeOfferRequired"
+            }
+          }
+        }
+      }
+    },
+    "/v2/user/channelCatalogs/{channelCatalogId}/disable": {
+      "post": {
+        "tags": [
+          "Settings"
+        ],
+        "summary": "Disable a channel catalog",
+        "operationId": "DisableChannelCatalog",
+        "parameters": [
+          {
+            "$ref": "#/parameters/channelCatalogIdParameter"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Channel catalog disabled"
+          }
+        }
+      }
+    },
+    "/v2/user/channelCatalogs/{channelCatalogId}/settings/general": {
+      "post": {
+        "tags": [
+          "Settings"
+        ],
+        "summary": "Disable a channel catalog",
+        "operationId": "ConfigureChannelCatalogGeneralSettings",
+        "parameters": [
+          {
+            "$ref": "#/parameters/channelCatalogIdParameter"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/generalSettings"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Channel catalog general settings configured"
+          }
+        }
+      }
+    },
+    "/v2/user/channelCatalogs/{channelCatalogId}/settings/cost": {
+      "post": {
+        "tags": [
+          "Settings"
+        ],
+        "summary": "Disable a channel catalog",
+        "operationId": "ConfigureChannelCatalogCostSettings",
+        "parameters": [
+          {
+            "$ref": "#/parameters/channelCatalogIdParameter"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/costSettings"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Channel catalog cost settings configured"
+          }
+        }
+      }
+    },
+    "/v2/user/channelCatalogs/{channelCatalogId}/columnMappings": {
+      "put": {
+        "tags": [
+          "Column Mappings"
+        ],
+        "summary": "Configure channel catalog column mappings",
+        "operationId": "MapChannelCatalogColumns",
+        "parameters": [
+          {
+            "$ref": "#/parameters/channelCatalogIdParameter"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/columnMappings"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Channel catalog column mappings configured"
+          }
+        }
+      }
+    },
+    "/v2/user/channelCatalogs/{channelCatalogId}/categoryMappings": {
+      "get": {
+        "tags": [
+          "Category Mappings"
+        ],
+        "summary": "Get channel catalog categories",
+        "operationId": "GetChannelCatalogCategories",
+        "parameters": [
+          {
+            "$ref": "#/parameters/channelCatalogIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Channel catalog category mappings",
+            "schema": {
+              "$ref": "#/definitions/channelCatalogCategoryMappings"
+            }
+          }
+        }
+      }
+    },
+    "/v2/user/channelCatalogs/{channelCatalogId}/categoryMappings/map": {
+      "post": {
+        "tags": [
+          "Category Mappings"
+        ],
+        "summary": "Map channel catalog category",
+        "operationId": "MapChannelCatalogCategory",
+        "parameters": [
+          {
+            "$ref": "#/parameters/channelCatalogIdParameter"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/mapCategoryRequest"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Channel catalog category mapped"
+          }
+        }
+      }
+    },
+    "/v2/user/channelCatalogs/{channelCatalogId}/categoryMappings/unmap": {
+      "post": {
+        "tags": [
+          "Category Mappings"
+        ],
+        "summary": "Unmap channel catalog category",
+        "operationId": "UnmapChannelCatalogCategory",
+        "parameters": [
+          {
+            "$ref": "#/parameters/channelCatalogIdParameter"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/unmapCategoryRequest"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Channel catalog category unmapped"
+          }
+        }
+      }
+    },
+    "/v2/user/channelCatalogs/exclusionFilterOperators": {
+      "get": {
+        "tags": [
+          "Exclusion Filters"
+        ],
+        "summary": "Get channel catalog exclusion filter operators",
+        "operationId": "GetChannelCatalogExclusionFilterOperators",
+        "responses": {
+          "200": {
+            "description": "Channel catalog exclusion filter operator list",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/exclusionFilterOperator"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/user/channelCatalogs/{channelCatalogId}/exclusionFilters": {
+      "put": {
+        "tags": [
+          "Exclusion Filters"
+        ],
+        "summary": "Configure channel catalog exclusion filters",
+        "operationId": "ConfigureChannelCatalogExclusionFilters",
+        "parameters": [
+          {
+            "$ref": "#/parameters/channelCatalogIdParameter"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/exclusionFilters"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Channel catalog exclusion filter list configured"
+          }
+        }
+      }
+    },
+    "/v2/user/channelCatalogs/{channelCatalogId}/products/{productId}": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Get channel catalog product information",
+        "operationId": "GetChannelCatalogProduct",
+        "parameters": [
+          {
+            "$ref": "#/parameters/channelCatalogIdParameter"
+          },
+          {
+            "$ref": "#/parameters/productIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Channel catalog product information",
+            "schema": {
+              "$ref": "#/definitions/channelCatalogProductInfo"
+            }
+          }
+        }
+      }
+    },
+    "/v2/user/channelCatalogs/{channelCatalogId}/products/{productId}/overrides": {
+      "put": {
+        "tags": [
+          "Product Overrides"
+        ],
+        "summary": "Override channel catalog product values",
+        "operationId": "OverrideChannelCatalogProductOverrides",
+        "parameters": [
+          {
+            "$ref": "#/parameters/channelCatalogIdParameter"
+          },
+          {
+            "$ref": "#/parameters/productIdParameter"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/productOverrides"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Channel catalog product overriden"
+          }
+        }
+      }
+    },
+    "/v2/user/channelCatalogs/{channelCatalogId}/products/{productId}/overrides/{channelColumnId}": {
+      "delete": {
+        "tags": [
+          "Product Overrides"
+        ],
+        "summary": "Delete a specific channel catalog product value override",
+        "operationId": "DeleteChannelCatalogProductValueOverride",
+        "parameters": [
+          {
+            "$ref": "#/parameters/channelCatalogIdParameter"
+          },
+          {
+            "$ref": "#/parameters/productIdParameter"
+          },
+          {
+            "name": "channelColumnId",
+            "description": "The channel column identifier",
+            "in": "path",
+            "type": "string",
+            "format": "guid",
+            "required": true,
+            "x-example": "8a76f06a-fefc-4c0d-bcfe-b210f1482977"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Channel catalog product value override deleted"
+          }
+        }
+      }
+    },
+    "/v2/user/channelCatalogs/{channelCatalogId}/products/{productId}/disable": {
+      "post": {
+        "tags": [
+          "Optimisation"
+        ],
+        "summary": "Disable channel catalog product",
+        "operationId": "DisableChannelCatalogProduct",
+        "description": "By default a all your catalog products are exposed to the channel.\nYou can disable a product by using this operation.\n/!\\ In case of massive optimisation we recommand you to use the analytics api\n",
+        "parameters": [
+          {
+            "$ref": "#/parameters/channelCatalogIdParameter"
+          },
+          {
+            "$ref": "#/parameters/productIdParameter"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Channel catalog product disabled"
+          }
+        }
+      }
+    },
+    "/v2/user/channelCatalogs/{channelCatalogId}/products/{productId}/reenable": {
+      "post": {
+        "tags": [
+          "Optimisation"
+        ],
+        "summary": "Reenable channel catalog product",
+        "description": "By default a all your catalog products are exposed to the channel.\nYou can reenable a product by using this operation.\n/!\\ In case of massive optimisation we recommand you to use the analytics api\n",
+        "operationId": "ReenableChannelCatalogProduct",
+        "parameters": [
+          {
+            "$ref": "#/parameters/channelCatalogIdParameter"
+          },
+          {
+            "$ref": "#/parameters/productIdParameter"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Channel catalog product reenabled"
+          }
+        }
+      }
+    },
+    "/v2/user/analytics/tracking/status": {
+      "get": {
+        "tags": [
+          "Tracking"
+        ],
+        "summary": "Display the synchronization status of the clicks and orders",
+        "description": "Your clicks and orders are eventually consistent. \\\nThis operation indicates you at which date the projections are.\n",
+        "operationId": "GetTrackingStatus",
+        "responses": {
+          "200": {
+            "description": "The tracking status informations",
+            "schema": {
+              "$ref": "#/definitions/trackingStatus"
+            }
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/v2/user/analytics/{storeId}/reports/filters": {
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": "Get report filter list for the given store",
+        "operationId": "GetReportFilters",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Report filter list",
+            "schema": {
+              "$ref": "#/definitions/reportFilters"
+            }
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/v2/user/analytics/{storeId}/reports/filters/{reportFilterId}": {
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": "Get the report filter description",
+        "operationId": "GetReportFilter",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          },
+          {
+            "$ref": "#/parameters/reportFilterIdOnlyGeneralParameters"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Report filter",
+            "schema": {
+              "$ref": "#/definitions/reportFilter"
+            }
+          },
+          "404": {
+            "description": "Report filter not found"
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": "Delete the report filter",
+        "operationId": "DeleteReportFilter",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          },
+          {
+            "$ref": "#/parameters/reportFilterIdOnlyGeneralParameters"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Report filter deleted"
+          },
+          "404": {
+            "description": "Report filter not found"
+          },
+          "401": {
+            "description": "This report filter is used by rule. In the error message you will find the rule identifier.",
+            "schema": {
+              "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.ErrorResponseMessage"
+            }
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": "Save the report filter",
+        "operationId": "SaveReportFilter",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          },
+          {
+            "$ref": "#/parameters/reportFilterIdOnlyGeneralParameters"
+          },
+          {
+            "name": "reportFilter",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/saveReportFilterRequest"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Report filter saved"
+          },
+          "409": {
+            "description": "Report filter name already exists"
+          },
+          "401": {
+            "description": "This report filter is used by rule. In the error message you will find the rule identifier.",
+            "schema": {
+              "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.ErrorResponseMessage"
+            }
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/v2/user/analytics/{storeId}/reports/byday": {
+      "post": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": "Get the report by day",
+        "description": "Get the report by day",
+        "operationId": "GetStoreReportByDay",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/reportByDayRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Your reporting by day",
+            "schema": {
+              "$ref": "#/definitions/reportByDayResponse"
+            }
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/v2/user/analytics/{storeId}/reports/byday/export": {
+      "post": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": "Get the report by day",
+        "description": "Get the report by day",
+        "operationId": "GetStoreReportByDayExport",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          },
+          {
+            "$ref": "#/parameters/exportFormatInQueryGeneralParameter"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/reportByDayRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Your reporting by day exported into a file",
+            "headers": {
+              "Location": {
+                "description": "To indicate the url of the export file\nExample: https://beezupchannel.blob.core.windows.net/reports/exports/Excel_Report_Days.xslx\n",
+                "type": "string",
+                "x-example": "https://beezupchannel.blob.core.windows.net/reports/exports/Excel_Report_Days.xslx"
+              }
+            },
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.Link2"
+              },
+              "example": [
+                {
+                  "href": "https://beezupchannel.blob.core.windows.net/reports/exports/Excel_Report_Days.xslx",
+                  "rel": "document",
+                  "method": "GET"
+                }
+              ]
+            }
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/v2/user/analytics/{storeId}/reports/bychannel": {
+      "post": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": "Get the report by channel",
+        "description": "Get the report by channel",
+        "operationId": "GetStoreReportByChannel",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/reportByChannelRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Your reporting by channel",
+            "schema": {
+              "$ref": "#/definitions/reportByChannelResponse"
+            }
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/v2/user/analytics/{storeId}/reports/bychannel/export": {
+      "post": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": "Export the report by channel",
+        "description": "Export the report by channel",
+        "operationId": "ExportStoreReportByChannel",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          },
+          {
+            "$ref": "#/parameters/exportFormatInQueryGeneralParameter"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/reportByChannelRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Your reporting by channel exported",
+            "headers": {
+              "Location": {
+                "description": "To indicate the url of the export file\nExample: https://beezupchannel.blob.core.windows.net/reports/exports/Excel_Report_Channels.xslx\n",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.Link2"
+              },
+              "example": [
+                {
+                  "href": "https://beezupchannel.blob.core.windows.net/reports/exports/Excel_Report_Channels.xslx",
+                  "rel": "document",
+                  "method": "GET"
+                }
+              ]
+            }
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/v2/user/analytics/{storeId}/reports/bycategory": {
+      "post": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": "Get the report by category",
+        "description": "Get the report by category",
+        "operationId": "GetStoreReportByCategory",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/reportByCategoryRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Your reporting by channel",
+            "schema": {
+              "$ref": "#/definitions/reportByCategoryResponse"
+            }
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/v2/user/analytics/{storeId}/reports/bycategory/export": {
+      "post": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": "Export the report by category",
+        "description": "Export the report by category",
+        "operationId": "ExportStoreReportByCategory",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          },
+          {
+            "$ref": "#/parameters/exportFormatInQueryGeneralParameter"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/reportByCategoryRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Your reporting by category exported",
+            "headers": {
+              "Location": {
+                "description": "To indicate the url of the export file\nExample: https://beezupchannel.blob.core.windows.net/reports/exports/Excel_Report_Categories.xslx\n",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.Link2"
+              },
+              "example": [
+                {
+                  "href": "https://beezupchannel.blob.core.windows.net/reports/exports/Excel_Report_Categories.xslx",
+                  "rel": "document",
+                  "method": "GET"
+                }
+              ]
+            }
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/v2/user/analytics/{storeId}/reports/byproduct": {
+      "post": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": "Get the report by product",
+        "description": "Get the report by product",
+        "operationId": "GetStoreReportByProduct",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/reportByProductRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Your reporting by product",
+            "schema": {
+              "$ref": "#/definitions/reportByProductResponse"
+            }
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/v2/user/analytics/{storeId}/reports/byproduct/export": {
+      "post": {
+        "tags": [
+          "Reports"
+        ],
+        "summary": "Export the report by product",
+        "description": "Export the report by product",
+        "operationId": "ExportStoreReportByProduct",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          },
+          {
+            "$ref": "#/parameters/exportFormatInQueryGeneralParameter"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/reportByProductRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Your reporting by product exported",
+            "headers": {
+              "Location": {
+                "description": "To indicate the url of the export file\nExample: https://beezupchannel.blob.core.windows.net/reports/exports/Excel_Report_Products.xslx\n",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.Link2"
+              },
+              "example": [
+                {
+                  "href": "https://beezupchannel.blob.core.windows.net/reports/exports/Excel_Report_Products.xslx",
+                  "rel": "document",
+                  "method": "GET"
+                }
+              ]
+            }
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/v2/user/analytics/{storeId}/optimisations/{actionName}": {
+      "post": {
+        "tags": [
+          "Optimisations"
+        ],
+        "summary": "Optimise products",
+        "description": "/!\\ WARNING /!\\ \\\nApply the operation on every product related to this request. \\\nThis operation is used at the bottom of the analytics page result.\n",
+        "operationId": "Optimise",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          },
+          {
+            "$ref": "#/parameters/optimisationActionNameGeneralParameters"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/optimiseRequest"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Products optimisatized"
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/v2/user/analytics/{storeId}/optimisations/byproduct/{productId}/{actionName}": {
+      "post": {
+        "tags": [
+          "Optimisations"
+        ],
+        "summary": "Optimise products",
+        "description": "/!\\ WARNING /!\\ \\\nThis operation will reenable or disable this product for every channel indicated in the body. \n",
+        "operationId": "OptimiseByProduct",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "description": "The product identifier concerned by this optimisation",
+            "type": "string",
+            "format": "guid"
+          },
+          {
+            "$ref": "#/parameters/optimisationActionNameGeneralParameters"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": false,
+            "description": "The channel identifier list concerned by this optimisation",
+            "schema": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "format": "guid"
+              },
+              "example": [
+                "a2d38563-50f0-43f1-be2b-b16e7ec4f007"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Product(s) optimisatized"
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/v2/user/analytics/{storeId}/optimisations/bycategory/{categoryId}/{actionName}": {
+      "post": {
+        "tags": [
+          "Optimisations"
+        ],
+        "summary": "Optimise products's category",
+        "description": "/!\\ WARNING /!\\ \\\nThis operation will reenable or disable products's category for every channel indicated in the body. \n",
+        "operationId": "OptimiseByCategory",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          },
+          {
+            "name": "categoryId",
+            "in": "path",
+            "required": true,
+            "description": "The category identifier concerned by this optimisation",
+            "type": "string",
+            "format": "guid"
+          },
+          {
+            "$ref": "#/parameters/optimisationActionNameGeneralParameters"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": false,
+            "description": "The channel identifier list concerned by this optimisation",
+            "schema": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "format": "guid"
+              },
+              "example": [
+                "a2d38563-50f0-43f1-be2b-b16e7ec4f007"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Products optimisatized"
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/v2/user/analytics/{storeId}/optimisations/bychannel/{channelId}/{actionName}": {
+      "post": {
+        "tags": [
+          "Optimisations"
+        ],
+        "summary": "Optimise products's category",
+        "description": "/!\\ WARNING /!\\ \\\nApply the operation on every product on this channel.\n",
+        "operationId": "OptimiseByChannel",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          },
+          {
+            "name": "channelId",
+            "in": "path",
+            "required": true,
+            "description": "The channel identifier concerned by this optimisation",
+            "type": "string",
+            "format": "guid"
+          },
+          {
+            "$ref": "#/parameters/optimisationActionNameGeneralParameters"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Products optimisatized"
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/v2/user/analytics/{storeId}/tracking/status": {
+      "get": {
+        "tags": [
+          "Tracking"
+        ],
+        "summary": "Get store tracking synchronization status",
+        "description": "Your clicks and orders are eventually consistent. \\\nThis operation indicates you at which date the projections are for this store.\n",
+        "operationId": "GetStoreTrackingStatus",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Store Tracking Status",
+            "schema": {
+              "$ref": "#/definitions/storeTrackingStatus"
+            }
+          },
+          "404": {
+            "description": "Store not found"
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/v2/user/analytics/{storeId}/tracking/clicks": {
+      "get": {
+        "tags": [
+          "Tracking"
+        ],
+        "summary": "Get the latest clicks tracked",
+        "operationId": "GetStoreTrackedClicks",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "type": "integer",
+            "description": "The click's count you want to get",
+            "required": false,
+            "default": 100,
+            "minimum": 5,
+            "maximum": 100
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Clicks information",
+            "schema": {
+              "$ref": "#/definitions/trackedClicks"
+            }
+          },
+          "404": {
+            "description": "Store not found"
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/v2/user/analytics/{storeId}/tracking/orders": {
+      "get": {
+        "tags": [
+          "Tracking"
+        ],
+        "summary": "Get the latest orders tracked",
+        "operationId": "GetStoreTrackedOrders",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "type": "integer",
+            "description": "The order's count you want to get",
+            "required": false,
+            "default": 100,
+            "minimum": 5,
+            "maximum": 100
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order list",
+            "schema": {
+              "$ref": "#/definitions/trackedOrders"
+            }
+          },
+          "404": {
+            "description": "Store not found"
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/v2/user/analytics/{storeId}/tracking/externalorders": {
+      "get": {
+        "tags": [
+          "Tracking"
+        ],
+        "summary": "Get the latest external orders tracked",
+        "operationId": "GetStoreTrackedExternalOrders",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "type": "integer",
+            "description": "The external order's count you want to get",
+            "required": false,
+            "default": 100,
+            "minimum": 5,
+            "maximum": 100
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "External Order list",
+            "schema": {
+              "$ref": "#/definitions/trackedExternalOrders"
+            }
+          },
+          "404": {
+            "description": "Store not found"
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/v2/user/analytics/{storeId}/rules": {
+      "get": {
+        "tags": [
+          "Rules"
+        ],
+        "summary": "Gets the list of rules for a given store",
+        "operationId": "GetRules",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rule list",
+            "schema": {
+              "$ref": "#/definitions/rules"
+            }
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Rules"
+        ],
+        "summary": "Rule creation",
+        "operationId": "CreateRule",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [],
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/createRuleRequest"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Rule created"
+          },
+          "400": {
+            "description": "Period on filter cannot be custom or filter does not exist"
+          },
+          "401": {
+            "description": "Store not allowed to use rules. Please upgrade your offer or contact us."
+          },
+          "403": {
+            "description": "Reached the maximum amount of rules allowed for your offer. Please upgrade your offer or contact us."
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/v2/user/analytics/{storeId}/rules/run": {
+      "post": {
+        "tags": [
+          "Rules"
+        ],
+        "summary": "Run all rules for this store",
+        "operationId": "RunRules",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "All rules executed."
+          },
+          "401": {
+            "description": "Store not allowed to use rules. Please upgrade your offer or contact us."
+          },
+          "404": {
+            "description": "Rule not found"
+          },
+          "409": {
+            "description": "Rules for this store are currently running. Please try again later."
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/v2/user/analytics/{storeId}/rules/executions": {
+      "get": {
+        "tags": [
+          "Rules"
+        ],
+        "summary": "Get the rules execution history",
+        "operationId": "GetRulesExecutions",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "The page to retrieve",
+            "required": true,
+            "type": "integer",
+            "default": 1,
+            "minimum": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "The count of rule history to retrieve",
+            "required": true,
+            "type": "integer",
+            "default": 10,
+            "minimum": 10,
+            "maximum": 100
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rules executions list",
+            "schema": {
+              "$ref": "#/definitions/ruleExecutionReportings"
+            }
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/v2/user/analytics/{storeId}/rules/{ruleId}": {
+      "get": {
+        "tags": [
+          "Rules"
+        ],
+        "summary": "Gets the rule",
+        "operationId": "GetRule",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          },
+          {
+            "$ref": "#/parameters/ruleIdOnlyGeneralParameters"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get Rule",
+            "schema": {
+              "$ref": "#/definitions/rule"
+            }
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Rules"
+        ],
+        "summary": "Delete Rule",
+        "operationId": "DeleteRule",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          },
+          {
+            "$ref": "#/parameters/ruleIdOnlyGeneralParameters"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Rule deleted"
+          },
+          "404": {
+            "description": "Rule not found"
+          },
+          "409": {
+            "description": "Rules for this store are currently running. Please try again later."
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Rules"
+        ],
+        "summary": "Update Rule",
+        "operationId": "UpdateRule",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          },
+          {
+            "$ref": "#/parameters/ruleIdOnlyGeneralParameters"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/updateRuleRequest"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Rule updated"
+          },
+          "400": {
+            "description": "Filter does not exist or period on filter cannot be custom"
+          },
+          "401": {
+            "description": "Store not allowed to use rules. Please upgrade your offer or contact us."
+          },
+          "404": {
+            "description": "Rule not found"
+          },
+          "409": {
+            "description": "Rules for this store are currently running. Please try again later."
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/v2/user/analytics/{storeId}/rules/{ruleId}/run": {
+      "post": {
+        "tags": [
+          "Rules"
+        ],
+        "summary": "Run rule",
+        "operationId": "RunRule",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          },
+          {
+            "$ref": "#/parameters/ruleIdOnlyGeneralParameters"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Rule executed"
+          },
+          "400": {
+            "description": "Rule is not enabled. Please enable this run before trying to run it."
+          },
+          "401": {
+            "description": "Store not allowed to use rules. Please upgrade your offer or contact us."
+          },
+          "404": {
+            "description": "Rule not found"
+          },
+          "409": {
+            "description": "Rules for this store are currently running. Please try again later."
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/v2/user/analytics/{storeId}/rules/{ruleId}/moveup": {
+      "post": {
+        "tags": [
+          "Rules"
+        ],
+        "summary": "Move the rule up",
+        "operationId": "MoveUpRule",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          },
+          {
+            "$ref": "#/parameters/ruleIdOnlyGeneralParameters"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Rule moved up"
+          },
+          "400": {
+            "description": "Priority can only be changed when more than one rule is defined"
+          },
+          "404": {
+            "description": "Rule not found"
+          },
+          "409": {
+            "description": "Rules for this store are currently running. Please try again later."
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/v2/user/analytics/{storeId}/rules/{ruleId}/movedown": {
+      "post": {
+        "tags": [
+          "Rules"
+        ],
+        "summary": "Move the rule down",
+        "operationId": "MoveDownRule",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          },
+          {
+            "$ref": "#/parameters/ruleIdOnlyGeneralParameters"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Rule moved down"
+          },
+          "400": {
+            "description": "Priority can only be changed when more than one rule is defined"
+          },
+          "404": {
+            "description": "Rule not found"
+          },
+          "409": {
+            "description": "Rules for this store are currently running. Please try again later."
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/v2/user/analytics/{storeId}/rules/{ruleId}/enable": {
+      "post": {
+        "tags": [
+          "Rules"
+        ],
+        "summary": "Enable rule",
+        "operationId": "EnableRule",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          },
+          {
+            "$ref": "#/parameters/ruleIdOnlyGeneralParameters"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Rune enabled"
+          },
+          "404": {
+            "description": "Rule not found"
+          },
+          "409": {
+            "description": "Rules for this store are currently running. Please try again later."
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      }
+    },
+    "/v2/user/analytics/{storeId}/rules/{ruleId}/disable": {
+      "post": {
+        "tags": [
+          "Rules"
+        ],
+        "summary": "Disable rule",
+        "operationId": "DisableRule",
+        "parameters": [
+          {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/parameters/storeIdOnlyGeneralParameters"
+          },
+          {
+            "$ref": "#/parameters/ruleIdOnlyGeneralParameters"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Rule disabled"
+          },
+          "404": {
+            "description": "Rule not found"
+          },
+          "409": {
+            "description": "Rules for this store are currently running. Please try again later."
+          },
+          "default": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/responses/GeneralError"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "createChannelCatalogRequest": {
+      "type": "object",
+      "required": [
+        "channelId",
+        "storeId"
+      ],
+      "properties": {
+        "channelId": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.ChannelId"
+        },
+        "storeId": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.StoreId"
+        }
+      }
+    },
+    "generalSettings": {
+      "description": "Represents the general settings of your channel catalog",
+      "type": "object",
+      "required": [
+        "acceptToPublishInfo",
+        "useBid",
+        "noCategoryMapping",
+        "doNotExportOutOfStockProducts",
+        "activeBeezUPTracking"
+      ],
+      "properties": {
+        "acceptToPublishInfo": {
+          "description": "If true then you authorize disclosure of my statistics generated from clicks and sales",
+          "type": "boolean",
+          "example": true
+        },
+        "useBid": {
+          "description": "Activate bidding for this channel",
+          "type": "boolean",
+          "example": false
+        },
+        "noCategoryMapping": {
+          "description": "Indicates that the channel authorize you to do not map your categories with their categories",
+          "type": "boolean",
+          "example": false
+        },
+        "doNotExportOutOfStockProducts": {
+          "description": "Do not export \"out of stock\" products. Note: this option is not taken into account by the counter.\n",
+          "type": "boolean",
+          "example": true
+        },
+        "activeBeezUPTracking": {
+          "description": "Activate BeezUP tracking for my statistics (checked by default)",
+          "type": "boolean",
+          "default": true,
+          "example": true
+        }
+      }
+    },
+    "costType": {
+      "description": "CPC means cost per click.\nCPA means cost per action.\nYou can have CPC/CPA with a global cost value.\nYou can have CPC/CPA by category the cost value MUST be null\nYou can have global fixed price.\n",
+      "type": "string",
+      "enum": [
+        "CPC_Global",
+        "CPA_Global",
+        "CPC_ByCategory",
+        "CPA_ByCategory",
+        "Fixed_Global"
+      ],
+      "example": "Fixed_Global"
+    },
+    "costSettings": {
+      "description": "Depending to the cost type you will have to define a cost value.",
+      "type": "object",
+      "required": [
+        "costType"
+      ],
+      "properties": {
+        "costType": {
+          "$ref": "#/definitions/costType"
+        },
+        "globalCostValue": {
+          "description": "In case of global cost type, you have to indicate the cost value.",
+          "type": "number",
+          "format": "decimal",
+          "example": 10.21
+        }
+      }
+    },
+    "unmapCategoryRequest": {
+      "description": "The request message to unmap a catalog category path to a channel category path",
+      "type": "object",
+      "required": [
+        "catalogCategoryPath"
+      ],
+      "properties": {
+        "catalogCategoryPath": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.CatalogCategoryPath"
+        }
+      }
+    },
+    "mapCategoryRequest": {
+      "description": "The request message to make a mapping between catalog category path and a channel category path",
+      "type": "object",
+      "required": [
+        "overrideSubCategoryMappings",
+        "autoMapNewSubCategories",
+        "channelCatalogCategoryMapping"
+      ],
+      "properties": {
+        "overrideSubCategoryMappings": {
+          "description": "Great feature! In case of mapping to parent channel category, you can ask to override the mapping of all sub channel category to this catalog category path",
+          "type": "boolean",
+          "example": true
+        },
+        "autoMapNewSubCategories": {
+          "description": "Great feature! In case of mapping to parent catalog category, you can ask to automatically map new sub catalog category in the next importation to this channel category path.",
+          "type": "boolean",
+          "example": true
+        },
+        "channelCatalogCategoryMapping": {
+          "$ref": "#/definitions/channelCatalogCategoryMapping"
+        }
+      }
+    },
+    "channelCatalogCategoryMappings": {
+      "type": "object",
+      "required": [
+        "links",
+        "channelCatalogCategoryMappings"
+      ],
+      "properties": {
+        "links": {
+          "type": "array",
+          "items": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.Link2"
+          },
+          "example": [
+            {
+              "rel": "mapCategory",
+              "operationId": "MapChannelCatalogCategory",
+              "href": "/v2/user/channelCatalogs/{channelCatalogId}/categoryMappings/map",
+              "parameters": [
+                {
+                  "name": "channelCatalogId",
+                  "type": "string",
+                  "required": true,
+                  "in": "path",
+                  "value": "6d6b04de-406b-4539-8e7e-bf3e8da5dfb0"
+                }
+              ]
+            }
+          ]
+        },
+        "channelCatalogCategoryMappings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/channelCatalogCategoryMappingInfo"
+          }
+        }
+      }
+    },
+    "channelCatalogCategoryMappingInfo": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/channelCatalogCategoryMapping"
+        },
+        {
+          "type": "object",
+          "required": [
+            "catalogCategoryPath",
+            "channelCategoryPath",
+            "links"
+          ],
+          "properties": {
+            "links": {
+              "type": "array",
+              "items": {
+                "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.Link2"
+              },
+              "example": [
+                {
+                  "rel": "unmapCategory",
+                  "operationId": "MapChannelCatalogCategory",
+                  "href": "/v2/user/channelCatalogs/{channelCatalogId}/categoryMappings/unmap",
+                  "parameters": [
+                    {
+                      "name": "channelCatalogId",
+                      "type": "string",
+                      "required": true,
+                      "in": "path",
+                      "value": "6d6b04de-406b-4539-8e7e-bf3e8da5dfb0"
+                    },
+                    {
+                      "name": "request",
+                      "in": "path",
+                      "type": "object",
+                      "required": true,
+                      "value": {
+                        "catalogCategoryPath": [
+                          "VÃªtements",
+                          "Femmes",
+                          "Chaussures"
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "channelCatalogCategoryMapping": {
+      "type": "object",
+      "description": "Represent a mapping between a catalog category path and a channel category path. \nThe cost on this mapping can be applied.\n",
+      "required": [
+        "catalogCategoryPath",
+        "channelCategoryPath"
+      ],
+      "properties": {
+        "catalogCategoryPath": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.CatalogCategoryPath"
+        },
+        "channelCategoryPath": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.ChannelCategoryPath"
+        },
+        "costValue": {
+          "description": "In case of CPC_ByCategory or CPA_ByCategory cost type, you have to indicate the cost value.",
+          "type": "number",
+          "format": "decimal",
+          "example": 10.21
+        }
+      }
+    },
+    "catalogColumnId": {
+      "type": "string",
+      "format": "guid",
+      "description": "The catalog column identifier (catalog or custom column)",
+      "example": "bea7c21e-948b-4ac3-9ffd-4396e62c4163"
+    },
+    "columnMapping": {
+      "description": "Represent a mapping between a channel column considering channel category mapping and a catalog column",
+      "type": "object",
+      "properties": {
+        "channelColumnId": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.ChannelColumnId"
+        },
+        "channelCategoryPath": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.ChannelCategoryPath"
+        },
+        "catalogColumnId": {
+          "$ref": "#/definitions/catalogColumnId"
+        }
+      }
+    },
+    "upgradeOfferRequired": {
+      "description": "The message contains the offer identifier required to execute this operation",
+      "type": "object",
+      "required": [
+        "offerId"
+      ],
+      "properties": {
+        "offerId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The offer identifier required",
+          "example": 9
+        }
+      }
+    },
+    "columnMappings": {
+      "description": "The column mapping list between a channel and a catalog",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/columnMapping"
+      }
+    },
+    "channelCatalogStatus": {
+      "type": "object",
+      "description": "Channel Catalog Status",
+      "required": [
+        "exportedProductCount",
+        "columnMappingStatus",
+        "categoryMappingStatus",
+        "apiSettingStatus"
+      ],
+      "properties": {
+        "exportedProductCount": {
+          "type": "integer",
+          "format": "int32",
+          "example": 101
+        },
+        "columnMappingStatus": {
+          "$ref": "#/definitions/columnMappingStatus"
+        },
+        "categoryMappingStatus": {
+          "$ref": "#/definitions/categoryMappingStatus"
+        },
+        "apiSettingStatus": {
+          "$ref": "#/definitions/apiSettingStatus"
+        }
+      }
+    },
+    "columnMappingStatus": {
+      "type": "string",
+      "enum": [
+        "warning",
+        "success",
+        "failed"
+      ],
+      "example": "Success"
+    },
+    "categoryMappingStatus": {
+      "type": "string",
+      "enum": [
+        "warning",
+        "success",
+        "failed"
+      ],
+      "example": "Success"
+    },
+    "apiSettingStatus": {
+      "type": "string",
+      "enum": [
+        "warning",
+        "success",
+        "failed"
+      ],
+      "example": "Success"
+    },
+    "channelCatalog": {
+      "description": "The channel catalog",
+      "type": "object",
+      "required": [
+        "channelCatalogId",
+        "channelId",
+        "storeId"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Indicates if the channel catalog is active",
+          "example": true
+        },
+        "isMarketplace": {
+          "type": "boolean",
+          "description": "Indicates if this channel catalog is related to a marketplace",
+          "example": true
+        },
+        "channelCatalogId": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.ChannelCatalogId"
+        },
+        "channelId": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.ChannelId"
+        },
+        "channelName": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.ChannelName"
+        },
+        "storeId": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.StoreId"
+        },
+        "generalSettings": {
+          "$ref": "#/definitions/generalSettings"
+        },
+        "costSettings": {
+          "$ref": "#/definitions/costSettings"
+        },
+        "columnMappings": {
+          "$ref": "#/definitions/columnMappings"
+        },
+        "exclusionFilters": {
+          "$ref": "#/definitions/exclusionFilters"
+        },
+        "exportUrl": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.HttpUrl"
+        },
+        "status": {
+          "$ref": "#/definitions/channelCatalogStatus"
+        },
+        "links": {
+          "description": "Indicates the actions you can do on a channel catalog",
+          "type": "array",
+          "items": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.Link2"
+          },
+          "example": [
+            {
+              "rel": "categoryMappings",
+              "operationId": "GetChannelCatalogCategoyMappings",
+              "href": "/v2/user/channelCatalogs/{channelCatalogId}/categoryMappings",
+              "parameters": [
+                {
+                  "name": "channelCatalogId",
+                  "type": "string",
+                  "required": true,
+                  "in": "path",
+                  "value": "6d6b04de-406b-4539-8e7e-bf3e8da5dfb0"
+                }
+              ]
+            },
+            {
+              "rel": "delete",
+              "operationId": "DeleteChannelCatalog",
+              "href": "/v2/user/channelCatalogs/{channelCatalogId}",
+              "parameters": [
+                {
+                  "name": "channelCatalogId",
+                  "type": "string",
+                  "required": true,
+                  "in": "path",
+                  "value": "6d6b04de-406b-4539-8e7e-bf3e8da5dfb0"
+                }
+              ]
+            },
+            {
+              "rel": "disable",
+              "operationId": "DisableChannelCatalog",
+              "href": "/v2/user/channelCatalogs/{channelCatalogId}/disable",
+              "parameters": [
+                {
+                  "name": "channelCatalogId",
+                  "type": "string",
+                  "required": true,
+                  "in": "path",
+                  "value": "6d6b04de-406b-4539-8e7e-bf3e8da5dfb0"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "productOverrides": {
+      "description": "The key is the channel column identifier",
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "example": {
+        "A92B715D-5330-5086-B58A-A49E183649BA": "3563",
+        "B7B79A0B-A8DE-54DA-964C-E2704DF3738A": "SHBELNL56",
+        "57F70E81-E4F2-5034-BC65-E1D5C48EBEDA": "Sony bravia",
+        "2A77749D-0AAB-5245-89B5-6A1A4E06DACA": "http://www.blalbla.nl/images/cache/dldldl.jpg",
+        "54B3B3CB-5CA5-5471-9DAE-5310C032059A": "http://www.blalbla.nl/images/cache/dlmdl.jpg",
+        "0EA21509-1141-57BD-B679-371BC98B2ADA": "http://www.blalbla.nl/images/cache/ldldld.jpg"
+      }
+    },
+    "exclusionFilters": {
+      "description": "The exclusion filter list",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/exclusionFilter"
+      }
+    },
+    "exclusionFilterName": {
+      "type": "string",
+      "description": "The exclusion filter name",
+      "example": "Exclude sony products"
+    },
+    "exclusionFilter": {
+      "description": "The exclusion filter",
+      "type": "object",
+      "required": [
+        "name",
+        "position",
+        "groupId",
+        "positionInGroup",
+        "channelColumnId",
+        "operatorName"
+      ],
+      "properties": {
+        "name": {
+          "$ref": "#/definitions/exclusionFilterName"
+        },
+        "position": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The position of the exclusion filter",
+          "minimum": 1,
+          "example": 1
+        },
+        "groupId": {
+          "type": "string",
+          "format": "guid",
+          "description": "Indicate the filter's group. All filters in the same group means an \"AND\" operation in the filter group",
+          "example": "d9833f4b-718a-436f-bab5-89da3d21bf60"
+        },
+        "positionInGroup": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Indicate the filter group position. This information is used for the UI purpose and must be unique in the filter group.",
+          "minimum": 1,
+          "example": 1
+        },
+        "channelColumnId": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.ChannelColumnId"
+        },
+        "operatorName": {
+          "$ref": "#/definitions/exclusionFilterOperatorName"
+        },
+        "value": {
+          "description": "The value indicate by the user when the filter operation requires it.",
+          "type": "string",
+          "example": "sony"
+        }
+      }
+    },
+    "exclusionFilterOperatorName": {
+      "description": "The exclusion filter operator name",
+      "type": "string",
+      "x-lov": "ChannelCatalogExclusionFilterOperator",
+      "example": "Contains"
+    },
+    "exclusionFilterOperatorDataType": {
+      "description": "Data type of the operator",
+      "enum": [
+        "string",
+        "number"
+      ],
+      "type": "string",
+      "default": "string",
+      "example": "string"
+    },
+    "exclusionFilterOperator": {
+      "description": "The exclusion filter operator",
+      "type": "object",
+      "properties": {
+        "name": {
+          "$ref": "#/definitions/exclusionFilterOperatorName"
+        },
+        "expectedChannelColumnDataType": {
+          "$ref": "#/definitions/exclusionFilterOperatorDataType"
+        },
+        "valueRequired": {
+          "type": "boolean",
+          "description": "This operator requires a value",
+          "example": true
+        },
+        "expectedValueDataType": {
+          "$ref": "#/definitions/exclusionFilterOperatorDataType"
+        }
+      }
+    },
+    "channelCatalogProductInfo": {
+      "description": "The channel catalog product information",
+      "type": "object",
+      "required": [
+        "productId",
+        "overrides",
+        "disabled",
+        "categoryMapped",
+        "excluded",
+        "links"
+      ],
+      "properties": {
+        "productId": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.ProductId"
+        },
+        "overrides": {
+          "$ref": "#/definitions/productOverrides"
+        },
+        "disabled": {
+          "type": "boolean",
+          "description": "Indicates if the product has been disabled or not",
+          "default": false,
+          "example": false
+        },
+        "categoryMapped": {
+          "type": "boolean",
+          "description": "Indicates if the product's category has been mapped to a channel category",
+          "example": true
+        },
+        "excluded": {
+          "type": "boolean",
+          "description": "Indicates if the product has been excluded by a exclusion filter",
+          "default": false,
+          "example": true
+        },
+        "excludedBy": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/exclusionFilterName"
+          },
+          "example": [
+            "Exclude sony products"
+          ]
+        },
+        "links": {
+          "$ref": "#/definitions/channelCatalogProductInfoLinks"
+        }
+      }
+    },
+    "channelCatalogProductInfoLinks": {
+      "description": "Indicates the differents actions you can do on a channel product",
+      "type": "object",
+      "required": [
+        "override"
+      ],
+      "properties": {
+        "override": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.Link2"
+        },
+        "disable": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.Link2"
+        },
+        "reenable": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.Link2"
+        }
+      }
+    },
+    "productStateFilter": {
+      "type": "string",
+      "description": "You can filter on the product state.",
+      "enum": [
+        "All",
+        "Enabled",
+        "Disabled"
+      ],
+      "default": "All",
+      "example": "All"
+    },
+    "reportByProductRequest": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/reportFilterCommonParameters"
+        },
+        {
+          "type": "object",
+          "required": [
+            "beginPeriodUtcDate",
+            "endPeriodUtcDate",
+            "advancedFilters",
+            "productState"
+          ],
+          "properties": {
+            "productState": {
+              "$ref": "#/definitions/productStateFilter"
+            },
+            "productFilters": {
+              "$ref": "#/definitions/productFilters"
+            }
+          }
+        }
+      ]
+    },
+    "productFilters": {
+      "type": "object",
+      "properties": {
+        "sku": {
+          "type": "string",
+          "description": "The product sku filter",
+          "example": "M1234"
+        },
+        "title": {
+          "type": "string",
+          "description": "The product title filter",
+          "example": "RefrigÃ©rateur"
+        },
+        "additionalProductFilters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/reportProductFilter"
+          },
+          "example": [
+            {
+              "columnId": "672644c7-5bd0-4e25-88c1-1f732bda5e4c",
+              "operatorName": "GreaterTo",
+              "values": [
+                100
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "optimiseRequest": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/reportFilterCommonParameters"
+        },
+        {
+          "type": "object",
+          "required": [
+            "beginPeriodUtcDate",
+            "endPeriodUtcDate",
+            "advancedFilters"
+          ],
+          "properties": {
+            "productState": {
+              "$ref": "#/definitions/productStateFilter"
+            },
+            "productFilters": {
+              "$ref": "#/definitions/productFilters"
+            }
+          }
+        }
+      ]
+    },
+    "reportProductFilter": {
+      "type": "object",
+      "description": "Describe a filter on a product's column",
+      "required": [
+        "columnId",
+        "operatorName"
+      ],
+      "properties": {
+        "columnId": {
+          "type": "string",
+          "format": "guid",
+          "description": "The column identifier of your catalog or a custom column.",
+          "example": "672644c7-5bd0-4e25-88c1-1f732bda5e4c"
+        },
+        "operatorName": {
+          "$ref": "#/definitions/reportProductFilterOperatorName"
+        },
+        "values": {
+          "description": "Must be null if the operator is \"IsNull\" or \"IsNotNull\". Can contains multiple value in case of \"InList\" operator. Otherwise a single value is expected.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "example": [
+            "My value"
+          ]
+        }
+      }
+    },
+    "reportProductFilterOperatorName": {
+      "type": "string",
+      "description": "Indicate the operator you want to make on the columnId",
+      "enum": [
+        "Equals",
+        "Contains",
+        "GreaterTo",
+        "LowerTo",
+        "InList",
+        "IsNull",
+        "IsNotNull"
+      ]
+    },
+    "reportByChannelResponse": {
+      "type": "object",
+      "properties": {
+        "paginationResult": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.PaginationResult"
+        },
+        "currencyCode": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.CurrencyCode"
+        },
+        "channels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/reportByChannel"
+          }
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.Link2"
+          },
+          "example": [
+            {
+              "href": "/v2/user/analytics/{storeId}/optimisations/{actionName}",
+              "operationId": "Optimise",
+              "rel": "EnableAllProducts",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "in": "path",
+                  "type": "string",
+                  "value": "8f95eb1a-3691-4750-950d-a13c4a8a9bcc"
+                },
+                {
+                  "name": "storeId",
+                  "in": "path",
+                  "type": "string",
+                  "value": "reenable"
+                },
+                {
+                  "name": "request",
+                  "in": "body",
+                  "type": "object",
+                  "value": "$request.body"
+                }
+              ]
+            },
+            {
+              "href": "/v2/user/analytics/{storeId}/optimisations/{actionName}",
+              "operationId": "Optimise",
+              "rel": "DisableAllProducts",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "in": "path",
+                  "type": "string",
+                  "value": "8f95eb1a-3691-4750-950d-a13c4a8a9bcc"
+                },
+                {
+                  "name": "storeId",
+                  "in": "path",
+                  "type": "string",
+                  "value": "disable"
+                },
+                {
+                  "name": "request",
+                  "in": "body",
+                  "type": "object",
+                  "value": "$request.body"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "reportByCategoryResponse": {
+      "type": "object",
+      "properties": {
+        "paginationResult": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.PaginationResult"
+        },
+        "currencyCode": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.CurrencyCode"
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/reportByCategory"
+          }
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.Link2"
+          },
+          "example": [
+            {
+              "href": "/v2/user/analytics/{storeId}/optimisations/{actionName}",
+              "operationId": "Optimise",
+              "rel": "EnableAllProducts",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "in": "path",
+                  "type": "string",
+                  "value": "8f95eb1a-3691-4750-950d-a13c4a8a9bcc"
+                },
+                {
+                  "name": "storeId",
+                  "in": "path",
+                  "type": "string",
+                  "value": "reenable"
+                },
+                {
+                  "name": "request",
+                  "in": "body",
+                  "type": "object",
+                  "value": "$request.body"
+                }
+              ]
+            },
+            {
+              "href": "/v2/user/analytics/{storeId}/optimisations/{actionName}",
+              "operationId": "Optimise",
+              "rel": "DisableAllProducts",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "in": "path",
+                  "type": "string",
+                  "value": "8f95eb1a-3691-4750-950d-a13c4a8a9bcc"
+                },
+                {
+                  "name": "storeId",
+                  "in": "path",
+                  "type": "string",
+                  "value": "disable"
+                },
+                {
+                  "name": "request",
+                  "in": "body",
+                  "type": "object",
+                  "value": "$request.body"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "reportByProductResponse": {
+      "type": "object",
+      "properties": {
+        "paginationResult": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.PaginationResult"
+        },
+        "products": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/reportByProduct"
+          }
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.Link2"
+          },
+          "example": [
+            {
+              "href": "/v2/user/analytics/{storeId}/optimisations/{actionName}",
+              "operationId": "Optimise",
+              "rel": "EnableAllProducts",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "in": "path",
+                  "type": "string",
+                  "value": "8f95eb1a-3691-4750-950d-a13c4a8a9bcc"
+                },
+                {
+                  "name": "storeId",
+                  "in": "path",
+                  "type": "string",
+                  "value": "reenable"
+                },
+                {
+                  "name": "request",
+                  "in": "body",
+                  "type": "object",
+                  "value": "$request.body"
+                }
+              ]
+            },
+            {
+              "href": "/v2/user/analytics/{storeId}/optimisations/{actionName}",
+              "operationId": "Optimise",
+              "rel": "DisableAllProducts",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "in": "path",
+                  "type": "string",
+                  "value": "8f95eb1a-3691-4750-950d-a13c4a8a9bcc"
+                },
+                {
+                  "name": "storeId",
+                  "in": "path",
+                  "type": "string",
+                  "value": "disable"
+                },
+                {
+                  "name": "request",
+                  "in": "body",
+                  "type": "object",
+                  "value": "$request.body"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "reportFilterCommonParameters": {
+      "description": "Contains common filter parameters",
+      "type": "object",
+      "required": [
+        "beginPeriodUtcDate",
+        "endPeriodUtcDate",
+        "advancedFilters"
+      ],
+      "properties": {
+        "channelId": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.ChannelId"
+        },
+        "beginPeriodUtcDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The begin date period you want to get the report",
+          "example": "2006-11-20T00:00:00Z"
+        },
+        "endPeriodUtcDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The end date period you want to get the report.",
+          "example": "2006-12-20T00:00:00Z"
+        },
+        "categoryFilter": {
+          "$ref": "#/definitions/reportCategoryFilter"
+        },
+        "indicatorFilters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/reportIndicatorFilter"
+          },
+          "example": [
+            {
+              "indicator": "Cost",
+              "operatorName": "Equals",
+              "value": 10.42
+            }
+          ]
+        },
+        "advancedFilters": {
+          "$ref": "#/definitions/reportAdvancedFilters"
+        }
+      }
+    },
+    "reportByCategoryRequest": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/reportFilterCommonParameters"
+        }
+      ]
+    },
+    "reportByChannelRequest": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/reportFilterCommonParameters"
+        }
+      ]
+    },
+    "reportIndicatorFilterOperatorName": {
+      "type": "string",
+      "description": "Indicates the operator you want to apply on this indicator",
+      "enum": [
+        "Equals",
+        "GreaterTo",
+        "LowerTo"
+      ],
+      "example": "Equals"
+    },
+    "reportIndicatorFilter": {
+      "type": "object",
+      "required": [
+        "indicator",
+        "operatorName",
+        "value"
+      ],
+      "properties": {
+        "indicator": {
+          "$ref": "#/definitions/performanceIndicatorType"
+        },
+        "operatorName": {
+          "$ref": "#/definitions/reportIndicatorFilterOperatorName"
+        },
+        "value": {
+          "type": "number",
+          "description": "Indicates the filter value to apply on this indicator",
+          "example": 10.42
+        }
+      }
+    },
+    "reportCategoryFilter": {
+      "type": "object",
+      "properties": {
+        "categoryPath": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Indicates on which category path you want to make the filter",
+          "example": [
+            "Home",
+            "Bedroom"
+          ]
+        }
+      }
+    },
+    "performanceIndicatorType": {
+      "type": "string",
+      "description": "Indicate on which indicator or value you want to make your formula",
+      "enum": [
+        "Cost",
+        "Turnover",
+        "Margin",
+        "OrderCount",
+        "ClickCount",
+        "TotalSales"
+      ],
+      "example": "Cost"
+    },
+    "reportByDayRequest": {
+      "required": [
+        "beginPeriodUtcDate",
+        "endPeriodUtcDate",
+        "advancedFilters"
+      ],
+      "type": "object",
+      "properties": {
+        "beginPeriodUtcDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The begin date period you want to get the report",
+          "example": "2006-11-20T00:00:00Z"
+        },
+        "endPeriodUtcDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The end date period you want to get the report.",
+          "example": "2006-12-20T00:00:00Z"
+        },
+        "advancedFilters": {
+          "$ref": "#/definitions/reportAdvancedFilters"
+        }
+      }
+    },
+    "margingType": {
+      "type": "string",
+      "enum": [
+        "Tracker",
+        "Global"
+      ],
+      "example": "Global"
+    },
+    "linkClickToOrderType": {
+      "type": "string",
+      "enum": [
+        "OnPurcharseDate",
+        "OnClickDate"
+      ],
+      "example": "OnClickDate"
+    },
+    "reportAdvancedFilters": {
+      "type": "object",
+      "required": [
+        "margingType",
+        "linkClickToOrderType",
+        "onlyPaymentValidatedOrders",
+        "onlyDirectSales",
+        "performanceIndicatorFormula"
+      ],
+      "properties": {
+        "margingType": {
+          "$ref": "#/definitions/margingType"
+        },
+        "globalMarginPercent": {
+          "type": "integer",
+          "description": "If the margin type is 'Global', indicate the percentage of sale price.",
+          "example": 10
+        },
+        "linkClickToOrderType": {
+          "$ref": "#/definitions/linkClickToOrderType"
+        },
+        "linkClickToOrderMaxDay": {
+          "type": "integer",
+          "description": "If the linkOrderType is OnClickDate, indicate the max day to search the click from the order",
+          "example": 5
+        },
+        "onlyPaymentValidatedOrders": {
+          "type": "boolean",
+          "description": "If true, you will get the only the orders with payment validated. Otherwise, you will get all orders validated or not.",
+          "example": true
+        },
+        "onlyDirectSales": {
+          "type": "boolean",
+          "description": "If true, you will get only direct sales. Otherwise the indirect sales will be included.",
+          "example": true
+        },
+        "performanceIndicatorFormula": {
+          "$ref": "#/definitions/performanceIndicatorFormula"
+        }
+      }
+    },
+    "reportByDayResponse": {
+      "type": "object",
+      "required": [
+        "globalPerformanceIndicators",
+        "days"
+      ],
+      "properties": {
+        "currencyCode": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.CurrencyCode"
+        },
+        "globalPerformanceIndicators": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/globalPerformanceIndicatorByChannel"
+          },
+          "example": [
+            {
+              "channelId": "61627afe-d805-4417-84be-9b9d31477dbd",
+              "globalPerformanceIndicator": 10.42
+            }
+          ]
+        },
+        "days": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/reportByDay"
+          }
+        }
+      }
+    },
+    "globalPerformanceIndicatorByChannel": {
+      "type": "object",
+      "required": [
+        "channelId",
+        "globalPerformanceIndicator"
+      ],
+      "properties": {
+        "channelId": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.ChannelId"
+        },
+        "globalPerformanceIndicator": {
+          "type": "number",
+          "description": "Indicates the global performance indicator for this channel",
+          "example": 10.42
+        }
+      }
+    },
+    "reportByDay": {
+      "type": "object",
+      "required": [
+        "day",
+        "allChannels",
+        "byChannels"
+      ],
+      "properties": {
+        "day": {
+          "type": "string",
+          "format": "date",
+          "example": "2017-02-22"
+        },
+        "allChannels": {
+          "$ref": "#/definitions/reportByDayAllChannels"
+        },
+        "byChannels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/reportByDayByChannel"
+          }
+        }
+      }
+    },
+    "reportByProduct": {
+      "type": "object",
+      "required": [
+        "product",
+        "enabledOnChannelCount",
+        "channelCount",
+        "clickCount",
+        "cost",
+        "orderCount",
+        "turnOver",
+        "margin",
+        "performanceIndicator",
+        "links"
+      ],
+      "properties": {
+        "product": {
+          "$ref": "#/definitions/trackedIdentifedProduct"
+        },
+        "enabledOnChannelCount": {
+          "type": "integer",
+          "description": "The count of channel where this product is enabled",
+          "example": 1
+        },
+        "channelCount": {
+          "type": "integer",
+          "description": "The channel count where this product can be enabled",
+          "example": 2
+        },
+        "clickCount": {
+          "type": "integer",
+          "description": "The click count for this product",
+          "example": 1234
+        },
+        "cost": {
+          "type": "number",
+          "description": "The cost for this product",
+          "example": 101.42
+        },
+        "orderCount": {
+          "type": "integer",
+          "description": "The order count for this product",
+          "example": 234.42
+        },
+        "turnOver": {
+          "type": "number",
+          "description": "The Turnover for this product",
+          "example": 42.01
+        },
+        "margin": {
+          "type": "number",
+          "description": "The margin for this product",
+          "example": 50.0
+        },
+        "performanceIndicator": {
+          "type": "number",
+          "description": "The performance indicator based on the performance indicator formula indicated in the request for this product",
+          "example": 10.12
+        },
+        "links": {
+          "description": "The action list on this product",
+          "type": "array",
+          "items": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.Link2"
+          },
+          "example": [
+            {
+              "href": "/{channelCatalogId}/products/{productId}/overrides",
+              "operationId": "OptimiseByProduct",
+              "rel": "EditProduct",
+              "parameters": [
+                {
+                  "name": "channelCatalogId",
+                  "in": "path",
+                  "type": "string",
+                  "value": "8f95eb1a-3691-4750-950d-a13c4a8a9bcc"
+                },
+                {
+                  "name": "productId",
+                  "in": "path",
+                  "type": "string",
+                  "value": "6d469a54-8426-4855-abc2-9e062e2056b9"
+                }
+              ]
+            },
+            {
+              "href": "/v2/user/analytics/{storeId}/optimisations/byproduct/{productId}/{actionName}",
+              "operationId": "OptimiseByProduct",
+              "rel": "EnableProduct",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "in": "path",
+                  "type": "string",
+                  "value": "8f95eb1a-3691-4750-950d-a13c4a8a9bcc"
+                },
+                {
+                  "name": "productId",
+                  "in": "path",
+                  "type": "string",
+                  "value": "6d469a54-8426-4855-abc2-9e062e2056b9"
+                },
+                {
+                  "name": "actionName",
+                  "in": "path",
+                  "type": "string",
+                  "value": "reenable"
+                },
+                {
+                  "name": "request",
+                  "in": "body",
+                  "type": "array",
+                  "value": [
+                    "a2d38563-50f0-43f1-be2b-b16e7ec4f007"
+                  ]
+                }
+              ]
+            },
+            {
+              "href": "/v2/user/analytics/{storeId}/optimisations/byproduct/{productId}/{actionName}",
+              "operationId": "OptimiseByProduct",
+              "rel": "DisableProduct",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "in": "path",
+                  "type": "string",
+                  "value": "8f95eb1a-3691-4750-950d-a13c4a8a9bcc"
+                },
+                {
+                  "name": "productId",
+                  "in": "path",
+                  "type": "string",
+                  "value": "6d469a54-8426-4855-abc2-9e062e2056b9"
+                },
+                {
+                  "name": "actionName",
+                  "in": "path",
+                  "type": "string",
+                  "value": "disable"
+                },
+                {
+                  "name": "request",
+                  "in": "body",
+                  "type": "array",
+                  "value": [
+                    "a2d38563-50f0-43f1-be2b-b16e7ec4f007"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "reportByCategory": {
+      "type": "object",
+      "required": [
+        "categoryId",
+        "enabledProductCount",
+        "catalogProductCount",
+        "clickCount",
+        "cost",
+        "orderCount",
+        "turnOver",
+        "margin",
+        "performanceIndicator"
+      ],
+      "properties": {
+        "categoryId": {
+          "type": "string",
+          "format": "guid",
+          "description": "The category identifier",
+          "example": "4c376178-25b4-4656-a86e-e3bd3a25b139"
+        },
+        "enabledProductCount": {
+          "type": "integer",
+          "description": "The enabled product count for this category",
+          "example": 101
+        },
+        "catalogProductCount": {
+          "type": "integer",
+          "description": "The catalog product count related to this category",
+          "example": 101
+        },
+        "clickCount": {
+          "type": "integer",
+          "description": "The click count for this category",
+          "example": 1001
+        },
+        "cost": {
+          "type": "number",
+          "description": "The cost for this category",
+          "example": 12.42
+        },
+        "orderCount": {
+          "type": "integer",
+          "description": "The order count for this category",
+          "example": 25.33
+        },
+        "turnOver": {
+          "type": "number",
+          "description": "The Turnover for this category",
+          "example": 25.33
+        },
+        "margin": {
+          "type": "number",
+          "description": "The margin for this category",
+          "example": 3.33
+        },
+        "performanceIndicator": {
+          "type": "number",
+          "description": "The performance indicator based on the performance indicator formula indicated in the request for this category",
+          "example": 25.33
+        },
+        "links": {
+          "description": "The action list on this catagory",
+          "type": "array",
+          "items": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.Link2"
+          },
+          "example": [
+            {
+              "href": "/v2/user/analytics/{storeId}/optimisations/bycategory/{categoryId}/{actionName}",
+              "operationId": "OptimiseByCategory",
+              "rel": "EnableProducts",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "in": "path",
+                  "type": "string",
+                  "value": "8f95eb1a-3691-4750-950d-a13c4a8a9bcc"
+                },
+                {
+                  "name": "categoryId",
+                  "in": "path",
+                  "type": "string",
+                  "value": "4c376178-25b4-4656-a86e-e3bd3a25b139"
+                },
+                {
+                  "name": "actionName",
+                  "in": "path",
+                  "type": "string",
+                  "value": "reenable"
+                },
+                {
+                  "name": "request",
+                  "in": "body",
+                  "type": "array",
+                  "value": [
+                    "a2d38563-50f0-43f1-be2b-b16e7ec4f007"
+                  ]
+                }
+              ]
+            },
+            {
+              "href": "/v2/user/analytics/{storeId}/optimisations/bycategory/{categoryId}/{actionName}",
+              "operationId": "OptimiseByCategory",
+              "rel": "DisableProducts",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "in": "path",
+                  "type": "string",
+                  "value": "8f95eb1a-3691-4750-950d-a13c4a8a9bcc"
+                },
+                {
+                  "name": "categoryId",
+                  "in": "path",
+                  "type": "string",
+                  "value": "4c376178-25b4-4656-a86e-e3bd3a25b139"
+                },
+                {
+                  "name": "actionName",
+                  "in": "path",
+                  "type": "string",
+                  "value": "disable"
+                },
+                {
+                  "name": "request",
+                  "in": "body",
+                  "type": "array",
+                  "value": [
+                    "a2d38563-50f0-43f1-be2b-b16e7ec4f007"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "reportByChannel": {
+      "type": "object",
+      "required": [
+        "channelId",
+        "enabledProductCount",
+        "catalogProductCount",
+        "clickCount",
+        "cost",
+        "orderCount",
+        "turnOver",
+        "margin",
+        "performanceIndicator"
+      ],
+      "properties": {
+        "channelId": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.ChannelId"
+        },
+        "enabledProductCount": {
+          "type": "integer",
+          "description": "The enabled product count for this channel",
+          "example": 101
+        },
+        "catalogProductCount": {
+          "type": "integer",
+          "description": "The catalog product count for this channel",
+          "example": 101
+        },
+        "clickCount": {
+          "type": "integer",
+          "description": "The click count for this channel",
+          "example": 1024
+        },
+        "cost": {
+          "type": "number",
+          "description": "The cost for this channel",
+          "example": 1234.12
+        },
+        "orderCount": {
+          "type": "integer",
+          "description": "The order count for this channel",
+          "example": 42
+        },
+        "turnOver": {
+          "type": "number",
+          "description": "The Turnover for this channel",
+          "example": 42.42
+        },
+        "margin": {
+          "type": "number",
+          "description": "The margin for this channel",
+          "example": 23.1
+        },
+        "performanceIndicator": {
+          "type": "number",
+          "description": "The performance indicator based on the performance indicator formula indicated in the request for this channel",
+          "example": 12.21
+        },
+        "links": {
+          "description": "The action list on this channel",
+          "type": "array",
+          "items": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.Link2"
+          },
+          "example": [
+            {
+              "href": "/v2/user/analytics/{storeId}/optimisations/bychannel/{channelId}/{actionName}",
+              "operationId": "OptimiseByChannel",
+              "rel": "EnableProducts",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "in": "path",
+                  "type": "string",
+                  "value": "8f95eb1a-3691-4750-950d-a13c4a8a9bcc"
+                },
+                {
+                  "name": "channelId",
+                  "in": "path",
+                  "type": "string",
+                  "value": "a2d38563-50f0-43f1-be2b-b16e7ec4f007"
+                },
+                {
+                  "name": "actionName",
+                  "in": "path",
+                  "type": "string",
+                  "value": "reenable"
+                }
+              ]
+            },
+            {
+              "href": "/v2/user/analytics/{storeId}/optimisations/bychannel/{channelId}/{actionName}",
+              "operationId": "OptimiseByChannel",
+              "rel": "DisableProducts",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "in": "path",
+                  "type": "string",
+                  "value": "8f95eb1a-3691-4750-950d-a13c4a8a9bcc"
+                },
+                {
+                  "name": "channelId",
+                  "in": "path",
+                  "type": "string",
+                  "value": "a2d38563-50f0-43f1-be2b-b16e7ec4f007"
+                },
+                {
+                  "name": "actionName",
+                  "in": "path",
+                  "type": "string",
+                  "value": "disable"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "reportByDayAllChannels": {
+      "type": "object",
+      "required": [
+        "clickCount",
+        "cost",
+        "orderCount",
+        "turnOver",
+        "margin",
+        "performanceIndicator"
+      ],
+      "properties": {
+        "clickCount": {
+          "type": "integer",
+          "description": "The click count for this channel",
+          "example": 101
+        },
+        "cost": {
+          "type": "number",
+          "description": "The cost for this channel",
+          "example": 10.42
+        },
+        "orderCount": {
+          "type": "integer",
+          "description": "The order count for this channel",
+          "example": 42
+        },
+        "turnOver": {
+          "type": "number",
+          "description": "The Turnover for this channel",
+          "example": 23.11
+        },
+        "margin": {
+          "type": "number",
+          "description": "The margin for this channel",
+          "example": 42.42
+        },
+        "performanceIndicator": {
+          "type": "number",
+          "description": "The performance indicator based on the performance indicator formula indicated in the request for this channel",
+          "example": 23.09
+        }
+      }
+    },
+    "reportByDayByChannel": {
+      "type": "object",
+      "required": [
+        "channelId",
+        "clickCount",
+        "cost",
+        "orderCount",
+        "turnOver",
+        "margin",
+        "performanceIndicator"
+      ],
+      "properties": {
+        "channelId": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.ChannelId"
+        },
+        "clickCount": {
+          "type": "integer",
+          "description": "The click count for this channel",
+          "example": 101
+        },
+        "cost": {
+          "type": "number",
+          "description": "The cost for this channel",
+          "example": 10.42
+        },
+        "orderCount": {
+          "type": "integer",
+          "description": "The order count for this channel",
+          "example": 42
+        },
+        "turnOver": {
+          "type": "number",
+          "description": "The Turnover for this channel",
+          "example": 23.11
+        },
+        "margin": {
+          "type": "number",
+          "description": "The margin for this channel",
+          "example": 42.42
+        },
+        "performanceIndicator": {
+          "type": "number",
+          "description": "The performance indicator based on the performance indicator formula indicated in the request for this channel",
+          "example": 23.09
+        }
+      }
+    },
+    "performanceIndicatorFormulaOperatorName": {
+      "type": "string",
+      "enum": [
+        "Multiply",
+        "Divide"
+      ],
+      "example": "Multiply"
+    },
+    "performanceIndicatorFormula": {
+      "type": "object",
+      "description": "The KPI formula",
+      "example": {
+        "firstParameter": "Cost",
+        "operatorName": "Multiply",
+        "secondParamter": "Turnover",
+        "thirdParameter": 100
+      },
+      "properties": {
+        "firstParameter": {
+          "$ref": "#/definitions/performanceIndicatorFormulaParameterType"
+        },
+        "operatorName": {
+          "$ref": "#/definitions/performanceIndicatorFormulaOperatorName"
+        },
+        "secondParameter": {
+          "$ref": "#/definitions/performanceIndicatorFormulaParameterType"
+        },
+        "thirdParameter": {
+          "type": "integer",
+          "description": "Indicate the value of the third parameter of your formula",
+          "example": 100
+        }
+      }
+    },
+    "performanceIndicatorFormulaParameterType": {
+      "type": "string",
+      "description": "Indicate on which indicator or value you want to make your formula",
+      "enum": [
+        "Cost",
+        "Turnover",
+        "Margin",
+        "OrderCount",
+        "ClickCount",
+        "TotalSales",
+        "One"
+      ],
+      "example": "Cost"
+    },
+    "trackedIdentifedProduct": {
+      "type": "object",
+      "required": [
+        "productId",
+        "productSku",
+        "productImageUrl",
+        "productActive"
+      ],
+      "properties": {
+        "productId": {
+          "format": "guid",
+          "type": "string",
+          "description": "The product identifier",
+          "example": "00000000-0000-0000-0000-000000000000"
+        },
+        "productSku": {
+          "type": "string",
+          "description": "The product SKU",
+          "example": "SKU1234"
+        },
+        "productTitle": {
+          "type": "string",
+          "description": "The product tile",
+          "example": "My supert product"
+        },
+        "productImageUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "The product image Url",
+          "example": "http://i2.cdscdn.com/pdt2/3/9/0/1/550x550/hai6901018043390/rw/haier-b20fwrss-refrigerateur-americain.jpg"
+        },
+        "productActive": {
+          "type": "boolean",
+          "description": "Indicates if the product still exists in your catalog",
+          "example": true
+        }
+      }
+    },
+    "trackedClicks": {
+      "type": "object",
+      "required": [
+        "clicks"
+      ],
+      "properties": {
+        "clicks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/trackedClick"
+          }
+        }
+      }
+    },
+    "trackedClick": {
+      "type": "object",
+      "required": [
+        "utcDate",
+        "product",
+        "ipAddress",
+        "channelId"
+      ],
+      "properties": {
+        "utcDate": {
+          "format": "date-time",
+          "type": "string",
+          "description": "The utc date of the click",
+          "example": "2016-08-29T09:12:33.001Z"
+        },
+        "product": {
+          "$ref": "#/definitions/trackedIdentifedProduct"
+        },
+        "ipAddress": {
+          "type": "string",
+          "description": "The user's IP address related to this click",
+          "example": "127.0.0.1"
+        },
+        "channelId": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.ChannelId"
+        }
+      }
+    },
+    "trackedOrders": {
+      "type": "object",
+      "required": [
+        "orders"
+      ],
+      "properties": {
+        "orders": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/trackedOrder"
+          }
+        }
+      }
+    },
+    "trackedOrder": {
+      "type": "object",
+      "required": [
+        "utcDate",
+        "channelId",
+        "merchantOrderId",
+        "totalAmount",
+        "currencyCode",
+        "paymentValidated",
+        "products"
+      ],
+      "properties": {
+        "utcDate": {
+          "format": "date-time",
+          "type": "string",
+          "description": "The utc date of the order.",
+          "example": "2016-08-29T09:12:33.001Z"
+        },
+        "channelId": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.ChannelId"
+        },
+        "merchantOrderId": {
+          "type": "string",
+          "description": "The merchant order identifier",
+          "example": "My_Merchant_Order_Id"
+        },
+        "totalAmount": {
+          "type": "number",
+          "description": "The total amount related to the order.",
+          "example": 101.42
+        },
+        "currencyCode": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.CurrencyCode"
+        },
+        "paymentValidated": {
+          "type": "boolean",
+          "description": "Indicate if the payment of this order has been validated or not.",
+          "example": false
+        },
+        "products": {
+          "description": "the product list related to this order.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/trackedOrderProduct"
+          },
+          "example": [
+            {
+              "productId": "00000000-0000-0000-0000-000000000000",
+              "productSku": "SKU123345",
+              "productTitle": "My super product title",
+              "productImageUrl": "http://i2.cdscdn.com/pdt2/3/9/0/1/550x550/hai6901018043390/rw/haier-b20fwrss-refrigerateur-americain.jpg",
+              "productActive": true,
+              "unitPrice": 101.42,
+              "quantity": 1.0,
+              "margin": 9.66
+            }
+          ]
+        }
+      }
+    },
+    "trackedOrderProduct": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/trackedIdentifedProduct"
+        },
+        {
+          "type": "object",
+          "required": [
+            "productId",
+            "productSku",
+            "productTitle",
+            "productImageUrl",
+            "productActive",
+            "unitPrice",
+            "quantity",
+            "margin"
+          ],
+          "properties": {
+            "unitPrice": {
+              "type": "number",
+              "description": "The product's unit price related to this order",
+              "example": 101.42
+            },
+            "quantity": {
+              "type": "number",
+              "description": "Indicate the product's quantity ordered.",
+              "example": 1.0
+            },
+            "margin": {
+              "type": "number",
+              "description": "Indicate the product's margin related to this order.",
+              "example": 9.66
+            }
+          }
+        }
+      ]
+    },
+    "trackedExternalOrders": {
+      "type": "object",
+      "required": [
+        "externalOrders"
+      ],
+      "properties": {
+        "externalOrders": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/trackedExternalOrder"
+          }
+        }
+      }
+    },
+    "trackedExternalOrder": {
+      "type": "object",
+      "required": [
+        "utcDate",
+        "merchantOrderId",
+        "totalAmount",
+        "currencyCode",
+        "paymentValidated"
+      ],
+      "properties": {
+        "utcDate": {
+          "format": "date-time",
+          "type": "string",
+          "description": "The utc date of the external order.",
+          "example": "2016-08-29T09:12:33.001Z"
+        },
+        "merchantOrderId": {
+          "type": "string",
+          "description": "The merchant order identifier",
+          "example": "My_Order_Merchant_Id"
+        },
+        "visitorId": {
+          "type": "string",
+          "description": "Can be null. The visitor identifier related to this external order",
+          "example": "A_VISITOR_ID"
+        },
+        "totalAmount": {
+          "type": "number",
+          "description": "The total amount related to the external order.",
+          "example": 101.42
+        },
+        "currencyCode": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.CurrencyCode"
+        },
+        "paymentValidated": {
+          "type": "boolean",
+          "description": "Indicate if the payment of this external order has been validated or not.",
+          "example": false
+        },
+        "products": {
+          "description": "Can be null. the product list related to this external order.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/trackedExternalOrderProduct"
+          },
+          "example": [
+            {
+              "productSku": "something",
+              "productTitle": "Something great",
+              "productImageUrl": "http://cdn3.sarenza.net/static/_img/productsV4/0000010744/MD_0000010744_29411_09.jpg?201308142051",
+              "productActive": true,
+              "merchantOrderId": "My_Merchant_Order_Id",
+              "unitPrice": "101.42",
+              "quantity": "1.00",
+              "margin": "9.66"
+            }
+          ]
+        }
+      }
+    },
+    "trackedExternalOrderProduct": {
+      "type": "object",
+      "required": [
+        "productSku"
+      ],
+      "properties": {
+        "productSku": {
+          "type": "string",
+          "description": "The product sku received related to the external order.",
+          "example": "something"
+        },
+        "productTitle": {
+          "type": "string",
+          "description": "We tried to get the catalog product title based on the product SKU. This property can be null, if we cannot found the product. This is possible if the product is not referenced in the imported catalog.",
+          "example": "Something great"
+        },
+        "productImageUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "We tried to get the catalog product image Url based on the product SKU. This property can be null, if we cannot found the product. This is possible if the product is not referenced in the imported catalog.",
+          "example": "http://cdn3.sarenza.net/static/_img/productsV4/0000010744/MD_0000010744_29411_09.jpg?201308142051"
+        },
+        "productActive": {
+          "type": "boolean",
+          "description": "We tried to get the catalog product if it's still active based on the product SKU. This property can be null, if we cannot found the product. This is possible if the product is not referenced in the imported catalog.",
+          "example": true
+        },
+        "productId": {
+          "type": "string",
+          "format": "guid",
+          "description": "We tried to get the catalog product identifier based on the product SKU. This property can be null, if we cannot found the product. This is possible if the product is not referenced in the imported catalog.",
+          "example": "6d469a54-8426-4855-abc2-9e062e2056b9"
+        },
+        "unitPrice": {
+          "type": "string",
+          "description": "The product's unit price related to this external order. This property is voluntarily a string because the value could be an invalid one.",
+          "example": "101.42"
+        },
+        "quantity": {
+          "type": "string",
+          "description": "Indicate the product's quantity ordered. This property is voluntarily a string because the value could be an invalid one",
+          "example": "1.00"
+        },
+        "margin": {
+          "type": "string",
+          "description": "Indicate the product's margin related to this order. This property is voluntarily a string because the value could be an invalid one",
+          "example": "9.66"
+        }
+      }
+    },
+    "trackingStatus": {
+      "type": "object",
+      "required": [
+        "clickSynchronizationUtcDate",
+        "orderSynchonizationUtcDate",
+        "marketplaceOrderSynchonizationUtcDate"
+      ],
+      "properties": {
+        "clickSynchronizationUtcDate": {
+          "description": "The utc date of the latest click synchronized",
+          "type": "string",
+          "format": "date-time",
+          "example": "2016-08-29T09:12:33.001Z"
+        },
+        "orderSynchonizationUtcDate": {
+          "description": "The utc date of the latest order synchronized",
+          "type": "string",
+          "format": "date-time",
+          "example": "2016-08-29T09:12:33.001Z"
+        },
+        "marketplaceOrderSynchonizationUtcDate": {
+          "description": "The utc date of the latest marketplace order synchronized",
+          "type": "string",
+          "format": "date-time",
+          "example": "2016-08-29T09:12:33.001Z"
+        }
+      }
+    },
+    "storeTrackingStatus": {
+      "type": "object",
+      "properties": {
+        "clickSynchronizationUtcDate": {
+          "description": "The utc date of the latest click synchronized",
+          "type": "string",
+          "format": "date-time",
+          "example": "2016-08-29T09:12:33.001Z"
+        },
+        "orderSynchonizationUtcDate": {
+          "description": "The utc date of the latest order synchronized",
+          "type": "string",
+          "format": "date-time",
+          "example": "2016-08-29T09:12:33.001Z"
+        },
+        "marketplaceOrderSynchonizationUtcDate": {
+          "description": "The utc date of the latest marketplace order synchronized",
+          "type": "string",
+          "format": "date-time",
+          "example": "2016-08-29T09:12:33.001Z"
+        }
+      }
+    },
+    "reportFilters": {
+      "type": "object",
+      "properties": {
+        "reportFilters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/reportFilterHeader"
+          }
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.Link2"
+          },
+          "example": [
+            {
+              "href": "/v2/user/analytics/{storeId}/reports/filters",
+              "rel": "self",
+              "operationId": "GetReportFilters",
+              "method": "GET",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "10af9486-e28e-47ab-b045-e13e4acd55c3"
+                },
+                {
+                  "name": "reportFilterId",
+                  "type": "string",
+                  "in": "path"
+                }
+              ]
+            },
+            {
+              "href": "/v2/user/analytics/{storeId}/reports/filters/{reportFilterId}",
+              "rel": "SaveReportFilter",
+              "operationId": "SaveReportFilter",
+              "method": "PUT",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "10af9486-e28e-47ab-b045-e13e4acd55c3"
+                },
+                {
+                  "name": "reportFilterId",
+                  "type": "string",
+                  "in": "path"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "reportFilterHeader": {
+      "type": "object",
+      "required": [
+        "reportFilterName",
+        "reportFilterId",
+        "links"
+      ],
+      "properties": {
+        "reportFilterId": {
+          "description": "Report filter identifier",
+          "type": "string",
+          "format": "guid",
+          "example": "fb19c53c-2f63-4262-9d94-2d7faa500acd"
+        },
+        "reportFilterName": {
+          "description": "Report filter name",
+          "type": "string",
+          "example": "My report filter"
+        },
+        "links": {
+          "description": "The list of action you can do on the filter subject",
+          "type": "array",
+          "items": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.Link2"
+          },
+          "example": [
+            {
+              "href": "/v2/user/analytics/{storeId}/reports/filters/{reportFilterId}",
+              "rel": "self",
+              "operationId": "GetReportFilter",
+              "method": "GET",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "10af9486-e28e-47ab-b045-e13e4acd55c3"
+                },
+                {
+                  "name": "reportFilterId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "fb19c53c-2f63-4262-9d94-2d7faa500acd"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "saveReportFilterRequest": {
+      "type": "object",
+      "required": [
+        "reportFilterName",
+        "parameters"
+      ],
+      "properties": {
+        "reportFilterName": {
+          "description": "Report filter name",
+          "type": "string",
+          "example": "My report filter"
+        },
+        "parameters": {
+          "$ref": "#/definitions/reportFilterParameters"
+        }
+      }
+    },
+    "reportFilter": {
+      "type": "object",
+      "required": [
+        "reportFilterId",
+        "reportFilterName",
+        "parameters"
+      ],
+      "properties": {
+        "reportFilterId": {
+          "description": "Report filter identifier",
+          "type": "string",
+          "format": "guid",
+          "example": "fb19c53c-2f63-4262-9d94-2d7faa500acd"
+        },
+        "reportFilterName": {
+          "description": "Report filter name",
+          "type": "string",
+          "example": "My report filter"
+        },
+        "parameters": {
+          "$ref": "#/definitions/reportFilterParameters"
+        },
+        "links": {
+          "description": "Indicates the actions you can do on this report filter",
+          "type": "array",
+          "items": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.Link2"
+          },
+          "example": [
+            {
+              "href": "/v2/user/analytics/{storeId}/reports/filters/{reportFilterId}",
+              "rel": "self",
+              "operationId": "GetReportFilter",
+              "method": "GET",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "10af9486-e28e-47ab-b045-e13e4acd55c3"
+                },
+                {
+                  "name": "reportFilterId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "fb19c53c-2f63-4262-9d94-2d7faa500acd"
+                }
+              ]
+            },
+            {
+              "href": "/v2/user/analytics/{storeId}/reports/filters/{reportFilterId}",
+              "rel": "DeleteReportFilter",
+              "operationId": "DeleteReportFilter",
+              "method": "DELETE",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "10af9486-e28e-47ab-b045-e13e4acd55c3"
+                },
+                {
+                  "name": "reportFilterId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "fb19c53c-2f63-4262-9d94-2d7faa500acd"
+                }
+              ]
+            },
+            {
+              "href": "/v2/user/analytics/{storeId}/reports/filters/{reportFilterId}",
+              "rel": "SaveReportFilter",
+              "operationId": "SaveReportFilter",
+              "method": "PUT",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "10af9486-e28e-47ab-b045-e13e4acd55c3"
+                },
+                {
+                  "name": "reportFilterId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "fb19c53c-2f63-4262-9d94-2d7faa500acd"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "reportFilterParameters": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/reportFilterCommonParameters"
+        },
+        {
+          "type": "object",
+          "required": [
+            "beginPeriodUtcDate",
+            "endPeriodUtcDate",
+            "advancedFilters",
+            "reportType"
+          ],
+          "properties": {
+            "reportType": {
+              "$ref": "#/definitions/reportType"
+            },
+            "productState": {
+              "$ref": "#/definitions/productStateFilter"
+            },
+            "productFilters": {
+              "$ref": "#/definitions/productFilters"
+            }
+          }
+        }
+      ]
+    },
+    "reportType": {
+      "type": "string",
+      "description": "The report type",
+      "enum": [
+        "ByChannel",
+        "ByCategory",
+        "ByProduct"
+      ],
+      "example": "ByProduct"
+    },
+    "rules": {
+      "type": "object",
+      "required": [
+        "rules",
+        "links"
+      ],
+      "properties": {
+        "rules": {
+          "description": "Rule list",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/rule"
+          }
+        },
+        "links": {
+          "description": "Links to know if the user can create a rule or run all rules",
+          "type": "array",
+          "items": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.Link2"
+          },
+          "example": [
+            {
+              "href": "/v2/user/analytics/{storeId}/rules",
+              "rel": "self",
+              "operationId": "GetRules",
+              "method": "GET",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "10af9486-e28e-47ab-b045-e13e4acd55c3"
+                }
+              ]
+            },
+            {
+              "href": "/v2/user/analytics/{storeId}/rules",
+              "rel": "CreateRule",
+              "operationId": "CreateRule",
+              "method": "POST",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "10af9486-e28e-47ab-b045-e13e4acd55c3"
+                }
+              ]
+            },
+            {
+              "href": "/v2/user/analytics/{storeId}/rules/executions",
+              "rel": "GetRulesExecutions",
+              "operationId": "GetRulesExecutions",
+              "method": "GET",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "10af9486-e28e-47ab-b045-e13e4acd55c3"
+                }
+              ]
+            },
+            {
+              "href": "/v2/user/analytics/{storeId}/rules/run",
+              "rel": "RunRules",
+              "operationId": "RunRules",
+              "method": "POST",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "10af9486-e28e-47ab-b045-e13e4acd55c3"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "optimisationActionName": {
+      "description": "The optimisation action",
+      "type": "string",
+      "enum": [
+        "reenable",
+        "disable"
+      ],
+      "example": "reenable"
+    },
+    "ruleLastExecutionStatus": {
+      "description": "The status of the last execution",
+      "enum": [
+        "InProgress",
+        "Succeeded",
+        "Failed",
+        "Unknown"
+      ],
+      "type": "string",
+      "example": "Succeeded"
+    },
+    "rule": {
+      "type": "object",
+      "required": [
+        "ruleId",
+        "ruleName",
+        "actionName",
+        "reportFilterId",
+        "position",
+        "enabled",
+        "links"
+      ],
+      "properties": {
+        "ruleId": {
+          "format": "guid",
+          "description": "The identifier of the rule",
+          "type": "string",
+          "example": "c38006b4-29d0-4b8a-978b-701a0b12d5a8"
+        },
+        "ruleName": {
+          "description": "The name of the rule",
+          "type": "string",
+          "example": "My Rule"
+        },
+        "lastExecutionStatus": {
+          "$ref": "#/definitions/ruleLastExecutionStatus"
+        },
+        "lastExecutionUtcDate": {
+          "format": "date-time",
+          "description": "The utc date of the last execution",
+          "type": "string",
+          "example": null
+        },
+        "actionName": {
+          "$ref": "#/definitions/optimisationActionName"
+        },
+        "reportFilterId": {
+          "description": "Report filter identifier linked to the rule",
+          "type": "string",
+          "format": "guid",
+          "example": "fb19c53c-2f63-4262-9d94-2d7faa500acd"
+        },
+        "position": {
+          "description": "Rule execution position",
+          "type": "integer",
+          "example": 1
+        },
+        "enabled": {
+          "description": "Is the rule enabled",
+          "type": "boolean",
+          "example": true
+        },
+        "validityStartUtcDate": {
+          "format": "date-time",
+          "description": "Rule validity start utc date",
+          "type": "string",
+          "example": "2016-08-29T09:12:33.001Z"
+        },
+        "validityEndUtcDate": {
+          "format": "date-time",
+          "description": "Rule validity end utc date",
+          "type": "string",
+          "example": "3016-08-29T09:12:33.001Z"
+        },
+        "links": {
+          "description": "Links to retrieve/action on other entities",
+          "type": "array",
+          "items": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.Link2"
+          },
+          "example": [
+            {
+              "href": "/v2/user/analytics/{storeId}/rules/{ruleId}",
+              "rel": "self",
+              "operationId": "GetRule",
+              "method": "GET",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "10af9486-e28e-47ab-b045-e13e4acd55c3"
+                },
+                {
+                  "name": "ruleId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "c38006b4-29d0-4b8a-978b-701a0b12d5a8"
+                }
+              ]
+            },
+            {
+              "href": "/v2/user/analytics/{storeId}/rules/{ruleId}",
+              "rel": "UpdateRule",
+              "operationId": "UpdateRule",
+              "method": "PATCH",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "10af9486-e28e-47ab-b045-e13e4acd55c3"
+                },
+                {
+                  "name": "ruleId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "c38006b4-29d0-4b8a-978b-701a0b12d5a8"
+                }
+              ]
+            },
+            {
+              "href": "/v2/user/analytics/{storeId}/rules/{ruleId}",
+              "rel": "DeleteRule",
+              "operationId": "DeleteRule",
+              "method": "DELETE",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "10af9486-e28e-47ab-b045-e13e4acd55c3"
+                },
+                {
+                  "name": "ruleId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "c38006b4-29d0-4b8a-978b-701a0b12d5a8"
+                }
+              ]
+            },
+            {
+              "href": "/v2/user/analytics/{storeId}/rules/{ruleId}/run",
+              "rel": "RunRule",
+              "operationId": "RunRule",
+              "method": "POST",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "10af9486-e28e-47ab-b045-e13e4acd55c3"
+                },
+                {
+                  "name": "ruleId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "c38006b4-29d0-4b8a-978b-701a0b12d5a8"
+                }
+              ]
+            },
+            {
+              "href": "/v2/user/analytics/{storeId}/rules/{ruleId}/moveup",
+              "rel": "MoveUpRule",
+              "operationId": "MoveUpRule",
+              "method": "POST",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "10af9486-e28e-47ab-b045-e13e4acd55c3"
+                },
+                {
+                  "name": "ruleId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "c38006b4-29d0-4b8a-978b-701a0b12d5a8"
+                }
+              ]
+            },
+            {
+              "href": "/v2/user/analytics/{storeId}/rules/{ruleId}/movedown",
+              "rel": "MoveDownRule",
+              "operationId": "MoveDownRule",
+              "method": "POST",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "10af9486-e28e-47ab-b045-e13e4acd55c3"
+                },
+                {
+                  "name": "ruleId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "c38006b4-29d0-4b8a-978b-701a0b12d5a8"
+                }
+              ]
+            },
+            {
+              "href": "/v2/user/analytics/{storeId}/rules/{ruleId}/enable",
+              "rel": "EnableRule",
+              "operationId": "EnableRule",
+              "method": "POST",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "10af9486-e28e-47ab-b045-e13e4acd55c3"
+                },
+                {
+                  "name": "ruleId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "c38006b4-29d0-4b8a-978b-701a0b12d5a8"
+                }
+              ]
+            },
+            {
+              "href": "/v2/user/analytics/{storeId}/rules/{ruleId}/disable",
+              "rel": "DisableRule",
+              "operationId": "DisableRule",
+              "method": "POST",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "10af9486-e28e-47ab-b045-e13e4acd55c3"
+                },
+                {
+                  "name": "ruleId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "c38006b4-29d0-4b8a-978b-701a0b12d5a8"
+                }
+              ]
+            },
+            {
+              "href": "/v2/user/analytics/{storeId}/reports/filters/{reportFilterId}",
+              "rel": "GetReportFilter",
+              "operationId": "GetReportFilter",
+              "method": "GET",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "10af9486-e28e-47ab-b045-e13e4acd55c3"
+                },
+                {
+                  "name": "reportFilterId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "fb19c53c-2f63-4262-9d94-2d7faa500acd"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "createRuleRequest": {
+      "required": [
+        "optimisationActionName",
+        "ruleName",
+        "reportFilterId"
+      ],
+      "type": "object",
+      "properties": {
+        "optimisationActionName": {
+          "$ref": "#/definitions/optimisationActionName"
+        },
+        "ruleName": {
+          "description": "The name of the rule",
+          "type": "string",
+          "example": "My rule"
+        },
+        "reportFilterId": {
+          "format": "guid",
+          "description": "The report filter to use for the rule",
+          "type": "string",
+          "example": "fb19c53c-2f63-4262-9d94-2d7faa500acd"
+        },
+        "startUtcDate": {
+          "format": "date-time",
+          "description": "The start validity utc date of the rule",
+          "type": "string",
+          "example": "2016-08-29T09:12:33.001Z"
+        },
+        "endUtcDate": {
+          "format": "date-time",
+          "description": "The end validity utc date of the rule",
+          "type": "string",
+          "example": "2017-09-30T10:42:40.001Z"
+        }
+      }
+    },
+    "updateRuleRequest": {
+      "description": "This update will replace the following values.",
+      "type": "object",
+      "required": [
+        "ruleName"
+      ],
+      "properties": {
+        "ruleName": {
+          "description": "The name of the rule",
+          "type": "string",
+          "example": "My Rule"
+        },
+        "startUtcDate": {
+          "format": "date-time",
+          "description": "Not required. The start validity utc date of the rule.",
+          "type": "string",
+          "example": "2016-08-29T09:12:33.001Z"
+        },
+        "endUtcDate": {
+          "format": "date-time",
+          "description": "Not required. The end validity utc date of the rule",
+          "type": "string",
+          "example": "2016-08-29T09:12:33.001Z"
+        }
+      }
+    },
+    "ruleExecutionReportings": {
+      "type": "object",
+      "properties": {
+        "executions": {
+          "description": "The rules executions history",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ruleExecutionReporting"
+          }
+        },
+        "paginationResult": {
+          "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.PaginationResult"
+        }
+      }
+    },
+    "ruleExecutionReportingStatus": {
+      "description": "The status of the execution of the rule",
+      "enum": [
+        "InProgress",
+        "Succeeded",
+        "Failed",
+        "Unknown"
+      ],
+      "type": "string",
+      "example": "Succeeded"
+    },
+    "ruleExecutionReportingErrorType": {
+      "description": "The error type for this execution if any",
+      "enum": [
+        "ChannelNotPresent",
+        "StoreIsInSystemBlockState"
+      ],
+      "type": "string",
+      "example": "ChannelNotPresent"
+    },
+    "ruleExecutionReportingExecutionSource": {
+      "description": "The requestor type for the execution of the rule",
+      "enum": [
+        "Scheduler",
+        "User"
+      ],
+      "type": "string",
+      "example": "User"
+    },
+    "ruleExecutionReporting": {
+      "type": "object",
+      "required": [
+        "ruleId",
+        "ruleName",
+        "status",
+        "executionSource"
+      ],
+      "properties": {
+        "ruleId": {
+          "description": "The rule identifier",
+          "type": "string",
+          "format": "guid",
+          "example": "fd9a23a1-569b-40af-af91-f7275a57bf89"
+        },
+        "ruleName": {
+          "description": "The name of the rule",
+          "type": "string",
+          "example": "toto"
+        },
+        "startedUtcDate": {
+          "format": "date-time",
+          "description": "The start utc date of the execution of the rule",
+          "type": "string",
+          "example": "2016-08-29T09:12:33.001Z"
+        },
+        "completedUtcDate": {
+          "format": "date-time",
+          "description": "The completed utc date of the execution of the rule",
+          "type": "string",
+          "example": "2016-08-29T09:12:33.001Z"
+        },
+        "status": {
+          "$ref": "#/definitions/ruleExecutionReportingStatus"
+        },
+        "errorType": {
+          "$ref": "#/definitions/ruleExecutionReportingErrorType"
+        },
+        "affectedProductCount": {
+          "description": "The count of affected products, active or not",
+          "type": "integer",
+          "example": 1
+        },
+        "activeAffectedProductCount": {
+          "description": "The count of affected active products",
+          "type": "integer",
+          "example": 1
+        },
+        "affectedChannelCount": {
+          "description": "The count of affected Channels across all products",
+          "type": "integer",
+          "example": 1
+        },
+        "optimisationActionName": {
+          "$ref": "#/definitions/optimisationActionName"
+        },
+        "userId": {
+          "format": "guid",
+          "description": "The userId that executed the rule if any",
+          "type": "string",
+          "example": "e8289350-69f8-45a6-b0ca-b641c83e0422"
+        },
+        "executionSource": {
+          "$ref": "#/definitions/ruleExecutionReportingExecutionSource"
+        },
+        "reportUrl": {
+          "description": "The url for the excel report for this execution",
+          "type": "string",
+          "example": "http://www.google.com"
+        },
+        "links": {
+          "description": "Links to retrieve/action on this rule execution",
+          "type": "array",
+          "items": {
+            "$ref": "https://api.swaggerhub.com/domains/BeezUP/api.beezup.com/v2#/definitions/BeezUP.Common.Link2"
+          },
+          "example": [
+            {
+              "href": "/v2/user/analytics/{storeId}/rules/{ruleId}",
+              "rel": "GetRule",
+              "operationId": "GetRule",
+              "method": "GET",
+              "parameters": [
+                {
+                  "name": "storeId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "10af9486-e28e-47ab-b045-e13e4acd55c3"
+                },
+                {
+                  "name": "ruleId",
+                  "type": "string",
+                  "in": "path",
+                  "value": "fd9a23a1-569b-40af-af91-f7275a57bf89"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "x-azure-api-id": "V2UserChannelCatalogs",
+  "x-tagGroups": [
+    {
+      "name": "Channel Catalogs",
+      "tags": [
+        "Global",
+        "Category Mappings",
+        "Column Mappings",
+        "Settings",
+        "Exclusion Filters"
+      ]
+    },
+    {
+      "name": "Analytics",
+      "tags": [
+        "Tracking",
+        "Statistics",
+        "Rules",
+        "Reports",
+        "Optimisations"
+      ]
+    }
+  ]
+}
