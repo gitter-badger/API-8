@@ -1,4 +1,6 @@
 # BeezUPApi OpenAPI Specification
+
+[![Join the chat at https://gitter.im/BeezUP/API](https://badges.gitter.im/BeezUP/API.svg)](https://gitter.im/BeezUP/API?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/BeezUP/API.svg?branch=master)](https://travis-ci.org/BeezUP/API)
 
 ## Steps to finish
